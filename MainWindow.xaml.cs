@@ -22,7 +22,7 @@ namespace RSAWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        RSACipher rsaCipher;
+        readonly RSACipher rsaCipher;
 
         public MainWindow()
         {

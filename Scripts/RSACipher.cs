@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
-using System.Diagnostics;
 
 namespace RSA
 {
@@ -32,54 +30,28 @@ namespace RSA
 
         public void SetupKeys(int numOfKeyBits)
         {
-
-            Stopwatch sw = new Stopwatch();
-
-
             MaxKeysLength = numOfKeyBits;
             RandomBigInteger random = new RandomBigInteger();
-            sw.Start();
-            for (int i = 0; i < 50; i++)
-            {
-                p = 0; q = 0; 
-                do
-                {
-                    /*              Thread threadP = new Thread(() => FindPrimeNumber(out p, ref random));
-                                    Thread threadQ = new Thread(() => FindPrimeNumber(out q, ref random));
-                                    threadP.Start();
-                                    threadQ.Start();
-                                    threadP.Join();
-                                    if (threadQ.IsAlive) threadQ.Join();*/
 
-                    do
-                    {
-                        p = random.NextBigInteger(numOfKeyBits);
-                    } while (!IsPrime(p) || p < 2);
-
-                    do
-                    {
-                        q = random.NextBigInteger(numOfKeyBits);
-                    } while (!IsPrime(q) || q < 2);
-                } while (p == q);
-
-                r = BigInteger.Multiply(p, q);
-                fi = BigInteger.Multiply(p - 1, q - 1);
-
-            }
-            sw.Stop();
-
-            SetupExp();
-
-            Console.WriteLine(sw.ElapsedMilliseconds);
-        }
-
-/*        void FindPrimeNumber(out BigInteger number, ref RandomBigInteger randomizer)
-        {
+            p = 0; q = 0; 
             do
             {
-                number = randomizer.NextBigInteger(MaxKeysLength);
-            } while (!IsPrime(number) || number < 2);
-        }*/
+                do
+                {
+                    p = random.NextBigInteger(numOfKeyBits);
+                } while (!IsPrime(p) || p < 2);
+
+                do
+                {
+                    q = random.NextBigInteger(numOfKeyBits);
+                } while (!IsPrime(q) || q < 2);
+            } while (p == q);
+
+            r = BigInteger.Multiply(p, q);
+            fi = BigInteger.Multiply(p - 1, q - 1);
+
+            SetupExp();
+        }
 
         public bool IsPrime(BigInteger number)
         {
